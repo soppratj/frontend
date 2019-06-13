@@ -54,6 +54,7 @@ import './index.css';
             }],
             stepNumber: 0,
             xIsNext: true,
+            order: true,
         };
     }
     handleClick(i) {
@@ -79,6 +80,12 @@ import './index.css';
             stepNumber: step,
             xIsNext: (step % 2) === 0,
         });
+    }
+
+    toggleClick() {
+      this.setState({
+          order: !this.state.order,
+      });
     }
 
     render() {
@@ -107,6 +114,20 @@ import './index.css';
       } else {
           status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
+      let toggle;
+      let mover = moves;
+      mover.sort((a,b) => {
+        if(this.state.order){
+          return 1;
+        } else {
+          return -1;
+        }
+      })
+      if (this.state.order){
+        toggle = 'ソート(昇順)';
+      } else {
+        toggle = 'ソート(降順)';
+      }
       return (
         <div className="game">
           <div className="game-board">
@@ -118,7 +139,12 @@ import './index.css';
           </div>
           <div className="game-info">
             <div>{status}</div>
-            <ol>{moves}</ol>
+            <div>
+              <button onClick={() => this.toggleClick()}>{toggle}</button>
+            </div>
+            <ol>
+              {mover}
+            </ol>
           </div>
         </div>
       );
