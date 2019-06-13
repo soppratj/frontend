@@ -50,6 +50,7 @@ import './index.css';
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                psquare: 0,
             }],
             stepNumber: 0,
             xIsNext: true,
@@ -66,6 +67,7 @@ import './index.css';
         this.setState({
             history: history.concat([{
                 squares: squares,
+                psquare: i,
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -86,11 +88,15 @@ import './index.css';
 
       const moves = history.map((step, move) => {
           const desc = move ?
-            'Go to move #' + move :
+            'Go to move #' + move + '(' + spuarePoint(step.psquare) + ')' :
             'Go to game start';
+          // 太字クラス「activelist」
+          const name = (current.squares == step.squares) ?
+            'activelist' :
+            ' ';
           return (
             <li key={move}>
-                <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                <button className={name} onClick={() => this.jumpTo(move)}>{desc}</button>
             </li>
           );
       });
@@ -126,6 +132,15 @@ import './index.css';
     document.getElementById('root')
   );
 
+  function spuarePoint(square){
+      const points = [
+        '1,1','2,1','3,1',
+        '1,2','2,2','3,2',
+        '1,3','2,3','3,3', 
+      ];
+      return(points[square]);
+
+  }
   function calculateWinner(squares) {
   const lines = [
     [0, 1, 2],
