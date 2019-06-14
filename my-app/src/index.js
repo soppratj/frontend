@@ -52,18 +52,18 @@ import './index.css';
             history: [{
                 squares: Array(9).fill(null),
                 psquare: 0,
+                winline: Array(3).fill(null),
             }],
             stepNumber: 0,
             xIsNext: true,
             order: true,
-            winline: Array(3).fill(null),
         };
     }
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length - 1];
         const squares = current.squares.slice();
-        if (this.state.winline[0] != null || squares[i]) {
+        if (current.winline[0] != null || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -72,10 +72,10 @@ import './index.css';
             history: history.concat([{
                 squares: squares,
                 psquare: i,
+                winline: wins ? wins.winline : Array(3).fill(null),
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
-            winline: wins ? wins.winline : Array(3).fill(null),
         });
     }
 
@@ -115,6 +115,8 @@ import './index.css';
       let status;
       if (wins) {
           status = 'Winner: ' + wins.winner;
+      } else if (this.state.stepNumber === current.squares.length ){
+          status = 'Draw game';
       } else {
           status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
       }
@@ -137,7 +139,7 @@ import './index.css';
           <div className="game-board">
             <Board 
                 squares={current.squares}
-                winline={this.state.winline}
+                winline={current.winline}
                 onClick={(i) => this.handleClick(i)}
             />
 
