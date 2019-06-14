@@ -50,5 +50,9 @@ body {
   }
   
   .activelist {
-      font-weight: bold;
+    font-weight: bold;
+  }
+
+  .winline {
+    background: #ff0;
   }
