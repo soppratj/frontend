@@ -16,7 +16,7 @@ import './index.css';
       return ( 
         <Square
             value={this.props.squares[i]}
-            className={this.props.winline.find((a,b,c) => a===i ) ? "winline" : ""}
+            className={typeof this.props.winline.find((a,b,c) => a===i ) != "undefined" ? "winline" : ""}
             onClick={() => this.props.onClick(i)}
         />
       );
